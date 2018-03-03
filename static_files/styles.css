@@ -1,0 +1,24 @@
+body{
+    background-color: #889191;
+    width:1000px;
+    margin: 0 auto;
+}
+
+h1{
+text-align:center;
+}
+
+.box{
+    display: grid;
+    justify-content: center;
+    border: 0.75px dotted;
+    border-radius: 5px;
+    background-color: gray;
+    padding: 5px;
+}
+
+.wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+}

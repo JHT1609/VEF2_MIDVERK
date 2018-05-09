@@ -1,5 +1,5 @@
 from bottle import run, route, template, static_file, error
-import requests
+import requests, os
 
 response = requests.get('http://apis.is/petrol')
 
@@ -14,8 +14,12 @@ def index():
 def static_server(filename):
     return static_file(filename,root=('./static_files'))
 
-@route('/company/<company>')
-def company(company):
-    return template('company', company=company, data=data)
+@route('/company/<c>')
+def company(c):
+    return template('company', c=c, data=data)
 
-run()
+@route('/details/<key>')
+def details(key):
+    return template('details', key=key, data=data)
+
+run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

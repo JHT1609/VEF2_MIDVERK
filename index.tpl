@@ -11,27 +11,38 @@
 
 <div class="wrapper">
     <%
-        company = []
-        for station in data['results']:
-            if station['company'] not in company:
-                company.append(station['company'])
-            end
+    company = []
+    for station in data['results']:
+        if station['company'] not in company:
+            company.append(station['company'])
         end
-        %>
-        % for c in company:
-            <br>
-            <div class="box"> <a href="/company/{{c}}"> {{c}} </a> </div>
-        %end
+    end
+    %>
 
-</div>
+    <h1>Veldu fyrirtæki:</h1>
+    % for company in company:
+        <h2><a href="/company/{{company}}">{{company}}</a></h2>
+    % end
 
-<%
-    min_bensin=min(data['results'], key=lambda x:x['bensin95'])
-    min_diesel=min(data['results'], key=lambda x:x['diesel'])
-%>
+    <%
+    bensin95disc = []
+    for station in data['results']:
+        if station['bensin95_discount'] != None:
+            bensin95disc.append({'company': station['company'], 'bensin95_discount': station['bensin95_discount']})
+        end
+    end
 
-<h2>Ódýrasta bensín:{{min_bensin['bensin95']}} hjá {{min_bensin['company']}} </h2>
-<h2>Ódýrasta dísel: {{min_bensin['diesel']}} hjá {{min_diesel['company']}} </h2>
+    minb95 = min(data['results'], key=lambda x: x['bensin95'])
+    minb95disc = min(bensin95disc, key=lambda x: x['bensin95_discount'])
+    mind = min(data['results'], key=lambda x: x['diesel'])
+
+    %>
+
+    <h4>Lægsta verð - Bensín 95: {{minb95['bensin95']}}, {{minb95['company']}}</h4>
+    <h4>Lægsta verð með afslætti - Bensín 95: {{minb95disc['bensin95_discount']}}, {{minb95disc['company']}}</h4>
+    <h4>Lægsta verð - Diesel: {{mind['diesel']}} hjá {{mind['company']}}</h4>
+
 
 
 </body>
+</html>
